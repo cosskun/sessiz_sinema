@@ -120,16 +120,19 @@ class _GameScreenState extends State<GameScreen> {
     final state = widget.gameState;
     final config = state.config;
 
-    return WillPopScope(
-      onWillPop: () async {
-        _confirmExit();
-        return false;
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+          _confirmExit();
+        }
       },
       child: Scaffold(
         body: SoftBackground(
-          child: Column(
-            children: [
-              // Top Bar (Score summary, Pause/Quit)
+          child: SafeArea(
+            child: Column(
+              children: [
+                // Top Bar (Score summary, Pause/Quit)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: Row(
@@ -193,8 +196,9 @@ class _GameScreenState extends State<GameScreen> {
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   // Shown when players are waiting for their turn
   Widget _buildIdleTurnLayout(GameState state) {
@@ -259,16 +263,19 @@ class _GameScreenState extends State<GameScreen> {
                     ),
                     child: Column(
                       children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(state.currentChallenge!.icon, style: const TextStyle(fontSize: 18)),
-                            const SizedBox(width: 6),
-                            const Text(
-                              '🃏 Meydan Okuma Handikapı:',
-                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFFD97706)),
-                            ),
-                          ],
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(state.currentChallenge!.icon, style: const TextStyle(fontSize: 18)),
+                              const SizedBox(width: 6),
+                              const Text(
+                                '🃏 Meydan Okuma Handikapı:',
+                                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFFD97706)),
+                              ),
+                            ],
+                          ),
                         ),
                         const SizedBox(height: 4),
                         Text(
@@ -372,32 +379,38 @@ class _GameScreenState extends State<GameScreen> {
             ),
             const SizedBox(width: 14),
             // Player info
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  state.activePlayerName,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: AppThemeManager.instance.textColor,
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    state.activePlayerName,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: AppThemeManager.instance.textColor,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  state.config.gameMode == GameMode.teams && state.activePlayerTeam != null
-                      ? '${state.activePlayerTeam} • Anlatıyor'
-                      : 'Sıradaki Oyuncu Anlatıyor',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: state.activePlayerTeam == state.config.teams[0]
-                        ? AppColors.teamA
-                        : (state.activePlayerTeam != null ? AppColors.teamB : Colors.grey.shade700),
-                    fontWeight: FontWeight.w600,
+                  const SizedBox(height: 2),
+                  Text(
+                    state.config.gameMode == GameMode.teams && state.activePlayerTeam != null
+                        ? '${state.activePlayerTeam} • Anlatıyor'
+                        : 'Sıradaki Oyuncu Anlatıyor',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: state.activePlayerTeam == state.config.teams[0]
+                          ? AppColors.teamA
+                          : (state.activePlayerTeam != null ? AppColors.teamB : Colors.grey.shade700),
+                      fontWeight: FontWeight.w600,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

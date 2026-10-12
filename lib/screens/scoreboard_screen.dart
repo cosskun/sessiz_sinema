@@ -33,6 +33,14 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
     _showFireworks = isFinalGameOver;
   }
 
+  @override
+  void didUpdateWidget(ScoreboardScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.gameState != oldWidget.gameState || widget.isIntermission != oldWidget.isIntermission) {
+      _showFireworks = widget.gameState.isGameOver || !widget.isIntermission;
+    }
+  }
+
   String _getPlayersInTeam(String teamName) {
     List<String> teamPlayers = [];
     widget.gameState.playerTeams.forEach((player, team) {
@@ -381,7 +389,7 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
 
   Widget _buildMvpBadge(String label, String player, Color color) {
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
       decoration: BoxDecoration(
         color: color.withOpacity(0.15),
         borderRadius: BorderRadius.circular(12),
@@ -389,13 +397,17 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
       ),
       child: Column(
         children: [
-          Text(label, style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: color)),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(label, style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: color)),
+          ),
           const SizedBox(height: 4),
-          Text(
-            player,
-            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: AppThemeManager.instance.textColor),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              player,
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: AppThemeManager.instance.textColor),
+            ),
           ),
         ],
       ),

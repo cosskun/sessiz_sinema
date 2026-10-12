@@ -196,47 +196,53 @@ class _FireworksCelebrationState extends State<FireworksCelebration> with Single
                   // Winner Name with smooth animated scale and glow
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    child: Text(
-                      widget.winnerName,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 42.0,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.white,
-                        shadows: [
-                          Shadow(
-                            color: Color(0xFF8E9DF7),
-                            blurRadius: 20,
-                            offset: Offset(0, 0),
-                          ),
-                          Shadow(
-                            color: Color(0xFFF78EAE),
-                            blurRadius: 40,
-                            offset: Offset(0, 0),
-                          ),
-                        ],
-                        letterSpacing: -0.5,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        widget.winnerName,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 42.0,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.white,
+                          shadows: [
+                            Shadow(
+                              color: Color(0xFF8E9DF7),
+                              blurRadius: 20,
+                              offset: Offset(0, 0),
+                            ),
+                            Shadow(
+                              color: Color(0xFFF78EAE),
+                              blurRadius: 40,
+                              offset: Offset(0, 0),
+                            ),
+                          ],
+                          letterSpacing: -0.5,
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(height: 60),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.08),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(color: Colors.white10),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        Icon(Icons.touch_app_rounded, color: Colors.white60, size: 18),
-                        SizedBox(width: 8),
-                        Text(
-                          'Sıralamayı görmek için dokunun',
-                          style: TextStyle(color: Colors.white60, fontSize: 13),
-                        ),
-                      ],
+                    child: const FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.touch_app_rounded, color: Colors.white60, size: 18),
+                          SizedBox(width: 8),
+                          Text(
+                            'Sıralamayı görmek için dokunun',
+                            style: TextStyle(color: Colors.white60, fontSize: 13),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

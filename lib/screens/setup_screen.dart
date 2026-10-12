@@ -197,12 +197,15 @@ class _SetupScreenState extends State<SetupScreen> {
                       icon: Icon(Icons.arrow_back_ios_new_rounded, color: AppThemeManager.instance.textColor),
                       onPressed: () => Navigator.of(context).pop(),
                     ),
-                    Text(
-                      'Oyun Ayarları',
-                      style: TextStyle(
-                        fontSize: 22.0,
-                        fontWeight: FontWeight.bold,
-                        color: AppThemeManager.instance.textColor,
+                    Expanded(
+                      child: Text(
+                        'Oyun Ayarları',
+                        style: TextStyle(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.bold,
+                          color: AppThemeManager.instance.textColor,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],
@@ -708,15 +711,16 @@ class _SetupScreenState extends State<SetupScreen> {
         children: [
           // Duration
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                '⏱️ Anlatım Süresi',
-                style: TextStyle(fontWeight: FontWeight.bold, color: AppThemeManager.instance.textColor),
+              Expanded(
+                child: Text(
+                  '⏱️ Anlatım Süresi',
+                  style: TextStyle(fontWeight: FontWeight.bold, color: AppThemeManager.instance.textColor),
+                ),
               ),
               Text(
                 '${_duration.toInt()} Saniye',
-                style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.primary),
+                style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.primary),
               ),
             ],
           ),
@@ -738,35 +742,40 @@ class _SetupScreenState extends State<SetupScreen> {
 
           // Pass Limit Selector
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                '🔄 Pas Hakkı',
-                style: TextStyle(fontWeight: FontWeight.bold, color: AppThemeManager.instance.textColor),
+              Expanded(
+                child: Text(
+                  '🔄 Pas Hakkı',
+                  style: TextStyle(fontWeight: FontWeight.bold, color: AppThemeManager.instance.textColor),
+                ),
               ),
-              Row(
-                children: [0, 1, 2, 3, 5].map((passes) {
-                  final isSelected = _passLimit == passes;
-                  return GestureDetector(
-                    onTap: () => setState(() => _passLimit = passes),
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                      decoration: BoxDecoration(
-                        color: isSelected ? AppColors.primary : Colors.white.withOpacity(0.4),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Text(
-                        '$passes',
-                        style: TextStyle(
-                          color: isSelected ? Colors.white : AppThemeManager.instance.textColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [0, 1, 2, 3, 5].map((passes) {
+                    final isSelected = _passLimit == passes;
+                    return GestureDetector(
+                      onTap: () => setState(() => _passLimit = passes),
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 3.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 9.0, vertical: 6.0),
+                        decoration: BoxDecoration(
+                          color: isSelected ? AppColors.primary : Colors.white.withOpacity(0.4),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Text(
+                          '$passes',
+                          style: TextStyle(
+                            color: isSelected ? Colors.white : AppThemeManager.instance.textColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                }).toList(),
+                    );
+                  }).toList(),
+                ),
               ),
             ],
           ),
@@ -992,51 +1001,56 @@ class _SetupScreenState extends State<SetupScreen> {
           ),
           const SizedBox(height: 16),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                _winCondition == WinCondition.score
-                    ? '🎯 Kazanılacak Puan'
-                    : '🔁 Toplam Raund',
-                style: TextStyle(fontWeight: FontWeight.bold, color: AppThemeManager.instance.textColor),
+              Expanded(
+                child: Text(
+                  _winCondition == WinCondition.score
+                      ? '🎯 Kazanılacak Puan'
+                      : '🔁 Toplam Raund',
+                  style: TextStyle(fontWeight: FontWeight.bold, color: AppThemeManager.instance.textColor),
+                ),
               ),
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        if (_winCondition == WinCondition.score) {
-                          if (_targetScore > 1) _targetScore--;
-                        } else {
-                          if (_rounds > 1) _rounds--;
-                        }
-                      });
-                    },
-                    icon: Icon(Icons.remove_circle_outline_rounded, color: AppThemeManager.instance.textColor),
-                  ),
-                  SizedBox(
-                    width: 32,
-                    child: Center(
-                      child: Text(
-                        _winCondition == WinCondition.score ? '$_targetScore' : '$_rounds',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppThemeManager.instance.textColor),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          if (_winCondition == WinCondition.score) {
+                            if (_targetScore > 1) _targetScore--;
+                          } else {
+                            if (_rounds > 1) _rounds--;
+                          }
+                        });
+                      },
+                      icon: Icon(Icons.remove_circle_outline_rounded, color: AppThemeManager.instance.textColor),
+                    ),
+                    SizedBox(
+                      width: 32,
+                      child: Center(
+                        child: Text(
+                          _winCondition == WinCondition.score ? '$_targetScore' : '$_rounds',
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppThemeManager.instance.textColor),
+                        ),
                       ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        if (_winCondition == WinCondition.score) {
-                          _targetScore++;
-                        } else {
-                          _rounds++;
-                        }
-                      });
-                    },
-                    icon: Icon(Icons.add_circle_outline_rounded, color: AppThemeManager.instance.textColor),
-                  ),
-                ],
-              )
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          if (_winCondition == WinCondition.score) {
+                            _targetScore++;
+                          } else {
+                            _rounds++;
+                          }
+                        });
+                      },
+                      icon: Icon(Icons.add_circle_outline_rounded, color: AppThemeManager.instance.textColor),
+                    ),
+                  ],
+                ),
+              ),
             ],
           )
         ],

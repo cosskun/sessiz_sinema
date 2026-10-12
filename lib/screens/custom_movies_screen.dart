@@ -78,15 +78,17 @@ class _CustomMoviesScreenState extends State<CustomMoviesScreen> {
                     icon: Icon(Icons.arrow_back_ios_new_rounded, color: AppThemeManager.instance.textColor),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
-                  Text(
-                    'Özel Film Paketim',
-                    style: TextStyle(
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.bold,
-                      color: AppThemeManager.instance.textColor,
+                  Expanded(
+                    child: Text(
+                      'Özel Film Paketim',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                        color: AppThemeManager.instance.textColor,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  const Spacer(),
                   IconButton(
                     tooltip: 'Varsayılan Popüler Dizileri Sıfırla',
                     icon: Icon(Icons.restore_rounded, color: AppThemeManager.instance.textColor),
@@ -235,18 +237,13 @@ class _CustomMoviesScreenState extends State<CustomMoviesScreen> {
                     const SizedBox(height: 20),
 
                     // List Section Header
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '📋 Ekli Filmler & Diziler (${movies.length})',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                            color: AppThemeManager.instance.textColor,
-                          ),
-                        ),
-                      ],
+                    Text(
+                      '📋 Ekli Filmler & Diziler (${movies.length})',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                        color: AppThemeManager.instance.textColor,
+                      ),
                     ),
                     const SizedBox(height: 8),
 
